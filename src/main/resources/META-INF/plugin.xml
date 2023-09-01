@@ -27,9 +27,12 @@
     <extensions defaultExtensionNs="com.intellij">
         <fileType
                 name="OpenFGA File"
-                implementationClass="com.example.openfga4intellij.OpenFGAFileType"
+                implementationClass="com.github.le_yams.openfga4intellij.OpenFGAFileType"
                 fieldName="INSTANCE"
                 language="OpenFGA"
                 extensions="openfga"/>
+        <lang.parserDefinition
+                language="OpenFGA"
+                implementationClass="com.github.le_yams.openfga4intellij.parsing.OpenFGAParserDefinition"/>
     </extensions>
 </idea-plugin>

@@ -1,4 +1,4 @@
-package com.example.openfga4intellij;
+package com.github.le_yams.openfga4intellij;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import org.jetbrains.annotations.NotNull;

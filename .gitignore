@@ -11,7 +11,7 @@ build/
 *.iml
 *.ipr
 out/
-**/src/main/**/gen/
+**/src/generated/
 !**/src/main/**/out/
 !**/src/test/**/out/
 

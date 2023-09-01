@@ -1,18 +1,16 @@
 
 {
 
-  parserClass="com.example.openfga4intellij.parser.OpenFGAParser"
-
-  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+  parserClass="com.github.le_yams.openfga4intellij.parsing.OpenFGAParser"
 
   psiClassPrefix="OpenFGA"
   psiImplClassSuffix="Impl"
-  psiPackage="com.example.openfga4intellij.psi"
-  psiImplPackage="com.example.openfga4intellij.psi.impl"
+  psiPackage="com.github.le_yams.openfga4intellij.psi"
+  psiImplPackage="com.github.le_yams.openfga4intellij.psi.impl"
 
-  elementTypeHolderClass="com.example.openfga4intellij.psi.OpenFGATypes"
-  elementTypeClass="com.example.openfga4intellij.psi.OpenFGAElementType"
-  tokenTypeClass="com.example.openfga4intellij.psi.OpenFGATokenType"
+  elementTypeHolderClass="com.github.le_yams.openfga4intellij.psi.OpenFGATypes"
+  elementTypeClass="com.github.le_yams.openfga4intellij.parsing.OpenFGAElementType"
+  tokenTypeClass="com.github.le_yams.openfga4intellij.parsing.OpenFGATokenType"
 
     tokens = [
         MODEL = "model";
@@ -23,7 +21,7 @@
         DEFINE = "define";
 
         HASH = "#";
-        COLON = " =";
+        COLON = ":";
         WILDCARD = "*";
         L_SQUARE = "[";
         R_SQUARE = "]";
@@ -36,35 +34,30 @@
 
         ALPHA_NUMERIC = "regexp:[a-zA-Z0-9_-]+";
 
-        END_OF_LINE = "regexp:[\r\n]";
-        WS = "regexp:[ \t]";
+        END_OF_LINE = "regexp:(\r\n)|\n";
+        WHITESPACE = "regexp:[\ \t]";
+        IDENT1= "regexp:((\ {2})|\t)";
+        IDENT2= "regexp:((\ {4})|(\t{2}))";
 
         SINGLE_LINE_COMMENT = "regexp:[ \t]*#.*"
     ]
 }
 
-
 openfgaFile ::= main
 main ::= modelHeader typeDefs newline? EOF
-indentation ::= indent
-modelHeader ::= (multiLineComment newline)? MODEL spacing? (newline multiLineComment)? indentation SCHEMA spacing schemaVersion spacing?
+modelHeader ::= headerMultiLineComment? MODEL spacing? multiLineComment? indentedLine1 SCHEMA spacing schemaVersion spacing?
 typeDefs ::= typeDef*
-typeDef ::= (newline multiLineComment)? newline TYPE spacing typeIdentifier spacing? (indentation RELATIONS spacing? relationDeclaration+)?
-relationDeclaration ::= (newline multiLineComment)? indentation DEFINE spacing relationName spacing? COLON spacing? relationDef spacing?
+typeDef ::= multiLineComment? newline TYPE spacing typeIdentifier spacing? (indentedLine1 RELATIONS spacing? relationDeclaration+)?
+relationDeclaration ::= multiLineComment? indentedLine2 DEFINE spacing relationName spacing? COLON spacing? relationDef spacing?
 relationDef ::= (relationDefDirectAssignment | relationDefGrouping) relationDefPartials?
 relationDefPartials ::= relationDefPartialAllOr | relationDefPartialAllAnd | relationDefPartialAllButNot
-relationDefPartialAllOr ::= (spacing relationDefOperatorOr spacing relationDefGrouping)+
-relationDefPartialAllAnd ::= (spacing relationDefOperatorAnd spacing relationDefGrouping)+
-relationDefPartialAllButNot ::= (spacing relationDefOperatorButNot spacing relationDefGrouping)+
+relationDefPartialAllOr ::= (spacing OR spacing relationDefGrouping)+
+relationDefPartialAllAnd ::= (spacing AND spacing relationDefGrouping)+
+relationDefPartialAllButNot ::= (spacing BUT_NOT spacing relationDefGrouping)+
 relationDefDirectAssignment ::= L_SQUARE spacing? relationDefTypeRestriction spacing? (COMMA spacing? relationDefTypeRestriction)* spacing? R_SQUARE
 relationDefRewrite ::= relationDefRelationOnSameObject | relationDefRelationOnRelatedObject
 relationDefRelationOnSameObject ::= rewriteComputedusersetName
-relationDefRelationOnRelatedObject ::= rewriteTuplesetComputedusersetName spacing relationDefKeywordFrom spacing rewriteTuplesetName
-relationDefOperator ::= relationDefOperatorOr | relationDefOperatorAnd | relationDefOperatorButNot
-relationDefOperatorAnd ::= AND
-relationDefOperatorOr ::= OR
-relationDefOperatorButNot ::= BUT_NOT
-relationDefKeywordFrom ::= FROM
+relationDefRelationOnRelatedObject ::= rewriteTuplesetComputedusersetName spacing FROM spacing rewriteTuplesetName
 relationDefTypeRestriction ::= relationDefTypeRestrictionType | relationDefTypeRestrictionWildcard | relationDefTypeRestrictionUserset
 relationDefTypeRestrictionType ::= identifier
 relationDefTypeRestrictionRelation ::= identifier
@@ -76,9 +69,12 @@ rewriteTuplesetComputedusersetName ::= identifier
 rewriteTuplesetName ::= identifier
 relationName ::= identifier
 typeIdentifier ::= identifier
-comment ::= SINGLE_LINE_COMMENT
-multiLineComment ::= comment (newline comment)*
-spacing ::= WS+
-newline ::= END_OF_LINE+
-schemaVersion ::= SCHEMA_VERSION_V1_1
 identifier ::= ALPHA_NUMERIC+
+schemaVersion ::= SCHEMA_VERSION_V1_1
+spacing ::= WHITESPACE+
+indentedLine1 ::= newline IDENT1
+indentedLine2 ::= newline IDENT2
+newline ::= END_OF_LINE+
+comment ::= SINGLE_LINE_COMMENT
+headerMultiLineComment ::= comment (newline comment)*
+multiLineComment ::= newline comment (newline comment)*
