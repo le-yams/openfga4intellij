@@ -14,9 +14,15 @@ public interface OpenFGATokenSets {
             OpenFGATypes.OR,
             OpenFGATypes.FROM
     );
+    TokenSet COMMENTS = TokenSet.create(
+            OpenFGATypes.SINGLE_LINE_COMMENT,
+            OpenFGATypes.HEADER_MULTI_LINE_COMMENT,
+            OpenFGATypes.MULTI_LINE_COMMENT
+    );
 
-    TokenSet RELATION_NAME = TokenSet.create(OpenFGATypes.RELATION_NAME);
-    TokenSet TYPE_IDENTIFIER = TokenSet.create(OpenFGATypes.TYPE_IDENTIFIER);
     TokenSet SINGLE_LINE_COMMENT = TokenSet.create(OpenFGATypes.COMMENT);
-//    TokenSet DUMMY_WHITE_SPACE = TokenSet.create(OpenFGATypes.DUMMY_WHITE_SPACE);
+
+    TokenSet SCHEMA_VERSIONS = TokenSet.create(
+            OpenFGATypes.SCHEMA_VERSION_V1_1
+    );
 }

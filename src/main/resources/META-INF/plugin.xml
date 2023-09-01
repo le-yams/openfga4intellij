@@ -34,5 +34,8 @@
         <lang.parserDefinition
                 language="OpenFGA"
                 implementationClass="com.github.le_yams.openfga4intellij.parsing.OpenFGAParserDefinition"/>
+        <lang.syntaxHighlighterFactory
+                language="OpenFGA"
+                implementationClass="com.github.le_yams.openfga4intellij.OpenFGASyntaxHighlighterFactory"/>
     </extensions>
 </idea-plugin>
