@@ -8,14 +8,19 @@
     <name>OpenFga4Intellij</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="support@yourcompany.com" url="https://www.yourcompany.com">YourCompany</vendor>
+    <vendor url="https://github.com/le-yams/openfga4intellij">Yann D'Isanto</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
+    <img src="https://openfga.dev/img/openfga_logo.svg" alt="OpenFGA logo"></img>&nbsp;
+    <a href="https://openfga.dev/">OpenFGA</a> support plugin.<br>
+    <ul>
+        <li>OpenFGA DSL syntax coloration</li>
+        <li>dsl to json transformation</li>
+        <li>auto-completion</li>
+    </ul>
   ]]></description>
 
     <!-- Product and plugin compatibility requirements.
