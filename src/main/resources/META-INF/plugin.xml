@@ -30,7 +30,7 @@
                 implementationClass="com.github.le_yams.openfga4intellij.OpenFGAFileType"
                 fieldName="INSTANCE"
                 language="OpenFGA"
-                extensions="openfga"/>
+                extensions="fga;openfga"/>
         <lang.parserDefinition
                 language="OpenFGA"
                 implementationClass="com.github.le_yams.openfga4intellij.parsing.OpenFGAParserDefinition"/>

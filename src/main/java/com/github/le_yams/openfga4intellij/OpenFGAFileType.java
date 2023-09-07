@@ -29,7 +29,7 @@ public class OpenFGAFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getDefaultExtension() {
-        return "openfga";
+        return "fga";
     }
 
     @Nullable
