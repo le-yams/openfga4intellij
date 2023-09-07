@@ -36,6 +36,10 @@
                 fieldName="INSTANCE"
                 language="OpenFGA"
                 extensions="fga;openfga"/>
+
+        <lang.commenter
+                language="OpenFGA"
+                implementationClass="com.github.le_yams.openfga4intellij.OpenFGACommenter"/>
         <lang.parserDefinition
                 language="OpenFGA"
                 implementationClass="com.github.le_yams.openfga4intellij.parsing.OpenFGAParserDefinition"/>
@@ -43,8 +47,9 @@
                 language="OpenFGA"
                 implementationClass="com.github.le_yams.openfga4intellij.OpenFGASyntaxHighlighterFactory"/>
 
-        <highlightVisitor implementation="com.github.le_yams.openfga4intellij.OpenFGAHighlightVisitor" />
+        <highlightVisitor implementation="com.github.le_yams.openfga4intellij.OpenFGAHighlightVisitor"/>
+        
         <colorSettingsPage
-                implementation="com.github.le_yams.openfga4intellij.OpenFGAColorSettingsPage" />
+                implementation="com.github.le_yams.openfga4intellij.OpenFGAColorSettingsPage"/>
     </extensions>
 </idea-plugin>
