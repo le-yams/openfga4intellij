@@ -51,5 +51,14 @@
         
         <colorSettingsPage
                 implementation="com.github.le_yams.openfga4intellij.OpenFGAColorSettingsPage"/>
+
+        <applicationService
+                serviceImplementation="com.github.le_yams.openfga4intellij.settings.OpenFGASettingsState"/>
+
+        <applicationConfigurable
+                parentId="tools"
+                instance="com.github.le_yams.openfga4intellij.settings.OpenFGASettingsConfigurable"
+                id="com.github.le_yams.openfga4intellij.settings.OpenFGASettingsConfigurable"
+                displayName="OpenFGA"/>
     </extensions>
 </idea-plugin>
