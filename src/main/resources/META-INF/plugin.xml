@@ -60,11 +60,22 @@
                 displayName="OpenFGA"/>
     </extensions>
     <actions>
+
+        <group id="OpenFGAPopupGroup" popup="true" text="OpenFGA" />
+
         <action id="com.github.le_yams.openfga4intellij.actions.DslToJsonAction"
-                class="com.github.le_yams.openfga4intellij.actions.DslToJsonAction" text="Generate JSON OpenFGA Authorization Model"
-                description="Generate OpenFGA authorisation model in JSON format">
-            <add-to-group group-id="EditorPopupMenu" anchor="first"/> popup
-            <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
+                class="com.github.le_yams.openfga4intellij.actions.DslToJsonAction" text="Generate JSON Authorization Model"
+                description="Generate authorisation model in JSON format">
+            <add-to-group group-id="OpenFGAPopupGroup"/>
         </action>
+
+
+        <group id="wrapper">
+            <reference ref="OpenFGAPopupGroup"/>
+            <separator/>
+            <add-to-group group-id="EditorPopupMenu" anchor="first" />
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="first" />
+        </group>
+
     </actions>
 </idea-plugin>
