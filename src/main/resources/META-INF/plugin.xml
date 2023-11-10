@@ -60,6 +60,10 @@
                 displayName="OpenFGA"/>
 
         <internalFileTemplate name="OpenFGA Authorization Model"/>
+        <defaultLiveTemplates file="/liveTemplates/OpenFGA.xml"/>
+        <liveTemplateContext
+                id="OPENFGA_CONTEXT"
+                implementation="com.github.le_yams.openfga4intellij.OpenFGATemplateContext"/>
     </extensions>
     <actions>
 
