@@ -10,9 +10,9 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 
-public class OpenFGAHighlightVisitor extends RainbowVisitor {
+public class OpenFGARainbowVisitor extends RainbowVisitor {
 
-    public OpenFGAHighlightVisitor() {
+    public OpenFGARainbowVisitor() {
     }
 
     @Override
@@ -45,7 +45,7 @@ public class OpenFGAHighlightVisitor extends RainbowVisitor {
 
     @Override
     public @NotNull HighlightVisitor clone() {
-        return new OpenFGAHighlightVisitor();
+        return new OpenFGARainbowVisitor();
     }
 
     private IElementType guessElementTypeFromPreviousSiblingType(IElementType prevSiblingType) {
