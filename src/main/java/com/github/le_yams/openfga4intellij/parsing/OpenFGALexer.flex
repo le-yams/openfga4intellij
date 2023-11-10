@@ -49,7 +49,6 @@ SINGLE_LINE_COMMENT=[ \t]*#.*
   "or"                        { return OR; }
   "but not"                   { return BUT_NOT; }
   "from"                      { return FROM; }
-  "EOF"                       { return EOF; }
 
   {ALPHA_NUMERIC}             { return ALPHA_NUMERIC; }
   {END_OF_LINE}               { return END_OF_LINE; }

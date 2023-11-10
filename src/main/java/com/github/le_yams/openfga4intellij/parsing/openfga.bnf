@@ -2,6 +2,7 @@
 {
 
   parserClass="com.github.le_yams.openfga4intellij.parsing.OpenFGAParser"
+  parserUtilClass="com.github.le_yams.openfga4intellij.parsing.OpenFGAParserUtil"
 
   psiClassPrefix="OpenFGA"
   psiImplClassSuffix="Impl"
@@ -44,7 +45,7 @@
 }
 
 openfgaFile ::= main
-main ::= modelHeader typeDefs newline? EOF
+main ::= modelHeader typeDefs newline?
 modelHeader ::= headerMultiLineComment? MODEL spacing? multiLineComment? indentedLine1 SCHEMA spacing schemaVersion spacing?
 typeDefs ::= typeDef*
 typeDef ::= multiLineComment? newline TYPE spacing typeIdentifier spacing? (indentedLine1 RELATIONS spacing? relationDeclaration+)?
