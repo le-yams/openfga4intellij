@@ -1,7 +1,7 @@
 <templateSet group="OpenFGA">
 
 
-    <template name="type" value="type $TYPE_NAME$" description="Create a type" toReformat="true"
+    <template name="type" value="type $TYPE_NAME$" description="Create a simple type" toReformat="true"
               toShortenFQNames="true">
         <context>
             <option name="OPENFGA_CONTEXT" value="true"/>
@@ -31,7 +31,7 @@
                 alwaysStopAt="true"/>
     </template>
 
-    <template name="relation" value="    define $RELATION_NAME$: $END$" description="Create a relation" toReformat="true"
+    <template name="relation" value="    define $RELATION_NAME$: $END$" description="Define a relation" toReformat="true"
               toShortenFQNames="true">
         <context>
             <option name="OPENFGA_CONTEXT" value="true"/>
