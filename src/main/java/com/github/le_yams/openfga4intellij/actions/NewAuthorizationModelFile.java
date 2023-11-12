@@ -35,15 +35,8 @@ public class NewAuthorizationModelFile extends CreateFileFromTemplateAction {
     @Override
     protected PsiFile createFileFromTemplate(String name, FileTemplate template, PsiDirectory dir) {
         var project = dir.getProject();
-        var properties = createProperties(project);
-        return new CreateFromTemplateDialog(project, dir, template, new AttributesDefaults(name).withFixedName(true), properties)
+        return new CreateFromTemplateDialog(project, dir, template, new AttributesDefaults(name).withFixedName(true), null)
                 .create()
                 .getContainingFile();
-    }
-
-    private Properties createProperties(Project project) {
-        var properties = FileTemplateManager.getInstance(project).getDefaultProperties();
-        properties.put("OPENFGA_MODEL_VERSION", "1.1");
-        return properties;
     }
 }

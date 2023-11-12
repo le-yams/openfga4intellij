@@ -6,7 +6,6 @@
 
     <vendor url="https://github.com/le-yams/openfga4intellij">Yann D'Isanto</vendor>
 
-
     <description><![CDATA[
     <a href="https://openfga.dev/">OpenFGA</a> support plugin.<br>
     <ul>
@@ -49,7 +48,9 @@
                 id="com.github.le_yams.openfga4intellij.settings.OpenFGASettingsConfigurable"
                 displayName="OpenFGA"/>
 
-        <internalFileTemplate name="OpenFGA Authorization Model"/>
+        <internalFileTemplate name="OpenFGA Authorization Model" />
+        <defaultTemplatePropertiesProvider
+                implementation="com.github.le_yams.openfga4intellij.OpenFGADefaultTemplatePropertiesProvider" />
         <defaultLiveTemplates file="/liveTemplates/OpenFGA.xml"/>
         <liveTemplateContext
                 id="OPENFGA_CONTEXT"
@@ -58,13 +59,6 @@
     <actions>
 
         <group id="OpenFGAPopupGroup" popup="true" text="OpenFGA" />
-
-        <action
-                id="OpenFGA.NewAuthorizationModelFile"
-                icon="com.github.le_yams.openfga4intellij.OpenFGAIcons.FILE"
-                class="com.github.le_yams.openfga4intellij.actions.NewAuthorizationModelFile">
-            <add-to-group group-id="NewGroup" anchor="first" />
-        </action>
 
         <action id="com.github.le_yams.openfga4intellij.actions.DslToJsonAction"
                 class="com.github.le_yams.openfga4intellij.actions.DslToJsonAction" text="Generate JSON Authorization Model"
