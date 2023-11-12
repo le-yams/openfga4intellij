@@ -9,4 +9,4 @@ This is an unofficial IntelliJ plugin for [OpenFGA](https://openfga.dev/) suppor
 * DSL syntax support (associated with `.fga` and `.openfga` file extensions)
 * Authorization model dsl file template
 * Authorization model dsl live templates
-* Generate json file from DSL (requires [openfga cli](https://github.com/openfga/cli) to be installed)
+* Generate json file from DSL (requires [OpenFGA CLI](https://github.com/openfga/cli) to be installed)
