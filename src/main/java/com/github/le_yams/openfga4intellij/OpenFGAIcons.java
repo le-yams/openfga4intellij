@@ -6,6 +6,6 @@ import javax.swing.*;
 
 public class OpenFGAIcons {
 
-    public static final Icon FILE = IconLoader.getIcon("/icons/openfga_transparent_16x16.png", OpenFGAIcons.class);
+    public static final Icon FILE = IconLoader.getIcon("/icons/openfga-icon-color-16.svg", OpenFGAIcons.class);
 
 }
