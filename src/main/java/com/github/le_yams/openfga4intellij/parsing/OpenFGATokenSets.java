@@ -15,12 +15,9 @@ public interface OpenFGATokenSets {
             OpenFGATypes.FROM
     );
     TokenSet COMMENTS = TokenSet.create(
-            OpenFGATypes.SINGLE_LINE_COMMENT,
             OpenFGATypes.HEADER_MULTI_LINE_COMMENT,
             OpenFGATypes.MULTI_LINE_COMMENT
     );
-
-    TokenSet SINGLE_LINE_COMMENT = TokenSet.create(OpenFGATypes.COMMENT);
 
     TokenSet SCHEMA_VERSIONS = TokenSet.create(
             OpenFGATypes.SCHEMA_VERSION_V1_1

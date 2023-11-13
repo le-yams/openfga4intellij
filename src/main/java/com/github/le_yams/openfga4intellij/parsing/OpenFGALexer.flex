@@ -27,7 +27,6 @@ END_OF_LINE=(\r\n)|\n
 WHITESPACE=[\ \t]
 IDENT1=((\ {2})|\t)
 IDENT2=((\ {4})|(\t{2}))
-SINGLE_LINE_COMMENT=[ \t]*#.*
 
 %%
 <YYINITIAL> {
@@ -55,7 +54,6 @@ SINGLE_LINE_COMMENT=[ \t]*#.*
   {WHITESPACE}                { return WHITESPACE; }
   {IDENT1}                    { return IDENT1; }
   {IDENT2}                    { return IDENT2; }
-  {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
 
 }
 
