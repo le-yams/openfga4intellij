@@ -36,6 +36,8 @@
                 language="OpenFGA"
                 implementationClass="com.github.le_yams.openfga4intellij.OpenFGASyntaxHighlighterFactory"/>
 
+        <highlightVisitor implementation="com.github.le_yams.openfga4intellij.OpenFGAHighlightVisitor" />
+
         <colorSettingsPage
                 implementation="com.github.le_yams.openfga4intellij.OpenFGAColorSettingsPage"/>
 
