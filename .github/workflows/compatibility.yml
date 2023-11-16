@@ -5,7 +5,7 @@ on:
 
 jobs:
   compatibility:
-    name: Ensure plugin compatibility against 2023.2 for IDEA Community, IDEA Ultimate, and the latest EAP snapshot of IDEA Community.
+    name: Ensure plugin compatibility against 2023.2 for IDEA Community, IDEA Ultimate, GoLand, Rider, and the latest EAP snapshot of IDEA Community.
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -21,14 +21,15 @@ jobs:
 
       - name: Verify Plugin on IntelliJ Platforms
         id: verify
-        uses: ChrisCarini/intellij-platform-plugin-verifier-action@latest
+        uses: ChrisCarini/intellij-platform-plugin-verifier-action@v2.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           ide-versions: |
-            ideaIC:2022.2
-            ideaIU:2022.2
-            goland:2022.2
+            ideaIC:2023.2
+            ideaIU:2023.2
+            goland:2023.2
+            riderRD:2023.2
             ideaIC:LATEST-EAP-SNAPSHOT
 
       - name: Get log file path and print contents
