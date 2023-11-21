@@ -7,12 +7,13 @@
     <vendor url="https://github.com/le-yams/openfga4intellij">Yann D'Isanto</vendor>
 
     <description><![CDATA[
-    <a href="https://openfga.dev/">OpenFGA</a> support plugin.<br>
+    Unofficial <a href="https://openfga.dev/">OpenFGA</a> support plugin.<br>
     <ul>
         <li>DSL syntax support (associated with <i>.fga</i> and <i>.openfga</i> file extensions)</li>
         <li>Authorization model dsl file template</li>
         <li>Authorization model dsl live templates</li>
         <li>Generate json file from DSL (requires <a href="https://github.com/openfga/cli">OpenFGA CLI to be installed)</li>
+        <li>Configure servers in OpenFGA tool window</li>
     </ul>
   ]]></description>
 

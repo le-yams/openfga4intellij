@@ -4,9 +4,9 @@ import com.intellij.openapi.util.IconLoader;
 
 import javax.swing.*;
 
-public class OpenFGAIcons {
+public interface OpenFGAIcons {
 
-    public static final Icon FILE = IconLoader.getIcon("/icons/openfga-icon-color-16.svg", OpenFGAIcons.class);
-    public static final Icon TOOL_WINDOW = IconLoader.getIcon("/icons/openfga-icon-monochrome_inverse_13x13.png", OpenFGAIcons.class);
+    Icon FILE = IconLoader.getIcon("/icons/openfga-color-transparent-16x16.svg", OpenFGAIcons.class);
+    Icon TOOL_WINDOW = IconLoader.getIcon("/icons/openfga-monochrome-transparent-13x13.svg", OpenFGAIcons.class);
 
 }
