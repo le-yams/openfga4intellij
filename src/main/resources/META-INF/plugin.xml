@@ -57,6 +57,14 @@
         <liveTemplateContext
                 id="OPENFGA_CONTEXT"
                 implementation="com.github.le_yams.openfga4intellij.OpenFGATemplateContext"/>
+        
+        <toolWindow
+                factoryClass="com.github.le_yams.openfga4intellij.servers.ui.OpenFGAToolWindowFactory"
+                id="OpenFGA"
+                anchor="right"
+                icon="com.github.le_yams.openfga4intellij.OpenFGAIcons.TOOL_WINDOW">
+
+        </toolWindow>
     </extensions>
     <actions>
 
