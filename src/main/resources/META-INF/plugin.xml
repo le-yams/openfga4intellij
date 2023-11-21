@@ -66,6 +66,9 @@
                 icon="com.github.le_yams.openfga4intellij.OpenFGAIcons.TOOL_WINDOW">
 
         </toolWindow>
+
+        <notificationGroup id="OpenFGA Notifications"
+                           displayType="BALLOON" />
     </extensions>
     <actions>
 
