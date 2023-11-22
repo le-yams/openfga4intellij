@@ -13,6 +13,11 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    implementation("dev.openfga:openfga-sdk:0.2.2")
+}
+
+
 sourceSets["main"].java.srcDirs("src/generated/java", "src/main/java")
 
 
