@@ -15,6 +15,8 @@ repositories {
 
 dependencies {
     implementation("dev.openfga:openfga-sdk:0.2.2")
+    implementation("org.dmfs:oauth2-essentials:0.22.0")
+    implementation("org.dmfs:httpurlconnection-executor:1.21.3")
 }
 
 

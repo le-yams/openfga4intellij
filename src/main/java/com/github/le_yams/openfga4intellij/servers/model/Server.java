@@ -23,7 +23,7 @@ public class Server {
     }
 
     public String loadUrl() {
-        var credentials = getCredentials("url");
+        var credentials = getCredentials(CredentialKey.URL);
         if (credentials == null) {
             return "";
         }
@@ -31,12 +31,12 @@ public class Server {
     }
 
     public void storeUrl(String url) {
-        var attributes = getCredentialAttributes("url");
+        var attributes = getCredentialAttributes(CredentialKey.URL);
         PasswordSafe.getInstance().set(attributes, new Credentials(id, url));
     }
 
     public String loadApiToken() {
-        var credentials = getCredentials("apiToken");
+        var credentials = getCredentials(CredentialKey.API_TOKEN);
         if (credentials == null) {
             return "";
         }
@@ -44,7 +44,7 @@ public class Server {
     }
 
     public void storeApiToken(String token) {
-        var attributes = getCredentialAttributes("apiToken");
+        var attributes = getCredentialAttributes(CredentialKey.API_TOKEN);
         PasswordSafe.getInstance().set(attributes, new Credentials(id, token));
     }
 
@@ -84,26 +84,26 @@ public class Server {
     }
 
     public Oidc loadOidc() {
-        var credentials = getCredentials("oidc_client");
+        var credentials = getCredentials(CredentialKey.OIDC_CLIENT);
         var clientId = credentials != null ? credentials.getUserName() : "";
         var clientSecret = credentials != null ? credentials.getPasswordAsString() : "";
 
-        credentials = getCredentials("oidc_issuer");
-        var issuer = credentials != null ? credentials.getPasswordAsString() : "";
+        credentials = getCredentials(CredentialKey.OIDC_AUTHORITY);
+        var authority = credentials != null ? credentials.getPasswordAsString() : "";
 
-        credentials = getCredentials("oidc_audience");
+        credentials = getCredentials(CredentialKey.OIDC_SCOPE);
         var audience = credentials != null ? credentials.getPasswordAsString() : "";
 
-        return new Oidc(clientId, clientSecret, issuer, audience);
+        return new Oidc(authority, clientId, clientSecret, audience);
     }
 
     public void storeOidc(Oidc oidc) {
-        var attributes = getCredentialAttributes("oidc_client");
+        var attributes = getCredentialAttributes(CredentialKey.OIDC_CLIENT);
         PasswordSafe.getInstance().set(attributes, new Credentials(oidc.clientId(), oidc.clientSecret()));
-        attributes = getCredentialAttributes("oidc_issuer");
-        PasswordSafe.getInstance().set(attributes, new Credentials(id, oidc.issuer()));
-        attributes = getCredentialAttributes("oidc_audience");
-        PasswordSafe.getInstance().set(attributes, new Credentials(id, oidc.audience()));
+        attributes = getCredentialAttributes(CredentialKey.OIDC_AUTHORITY);
+        PasswordSafe.getInstance().set(attributes, new Credentials(id, oidc.authority()));
+        attributes = getCredentialAttributes(CredentialKey.OIDC_SCOPE);
+        PasswordSafe.getInstance().set(attributes, new Credentials(id, oidc.scope()));
     }
 
     @Override
@@ -111,4 +111,12 @@ public class Server {
         return name;
     }
 
+    private interface CredentialKey {
+
+        String URL = "url";
+        String API_TOKEN = "apiToken";
+        String OIDC_CLIENT = "oidc_client";
+        String OIDC_AUTHORITY = "oidc_authority";
+        String OIDC_SCOPE = "oidc_scope";
+    }
 }

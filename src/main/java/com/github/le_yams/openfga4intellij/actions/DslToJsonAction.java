@@ -6,14 +6,11 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 
 public class DslToJsonAction extends AnAction {
-
-    private static final Logger logger = Logger.getInstance(DslToJsonAction.class);
 
     @Override
     public void update(@NotNull AnActionEvent event) {
