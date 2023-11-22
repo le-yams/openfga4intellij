@@ -228,7 +228,6 @@ public class ServerDialog extends DialogWrapper {
         private void taskFailed(String errorMessage, Throwable throwable) {
             SwingUtilities.invokeLater(() -> {
                 connectionTestLabel.setText(testServer + " connection test failed");
-                connectionTestLabel.setIcon(AllIcons.General.ErrorDialog);
                 connectionTestLabel.setIcon(AllIcons.RunConfigurations.TestError);
             });
             if (throwable != null) {

@@ -1,13 +1,13 @@
 package com.github.le_yams.openfga4intellij.actions;
 
 import com.github.le_yams.openfga4intellij.OpenFGALanguage;
+import com.github.le_yams.openfga4intellij.cli.tasks.DslToJsonTask;
 import com.github.le_yams.openfga4intellij.settings.OpenFGASettingsState;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 
 public class DslToJsonAction extends AnAction {
@@ -24,14 +24,10 @@ public class DslToJsonAction extends AnAction {
             var cliIsConfigured = settings.cliPath != null && !settings.cliPath.isEmpty();
             event.getPresentation().setEnabled(cliIsConfigured);
             var description = cliIsConfigured
-                    ? "generate " + computeJsonGeneratedFileName(psiFile) + " file"
+                    ? "generate " + DslToJsonTask.computeJsonGeneratedFileName(psiFile) + " file"
                     : "Please configure openfga cli path";
             event.getPresentation().setDescription(description);
         }
-    }
-
-    static String computeJsonGeneratedFileName(PsiFile dslFile) {
-        return dslFile.getName().replaceAll("(fga)|(openfga)$", "json");
     }
 
     @Override

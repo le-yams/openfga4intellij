@@ -10,8 +10,6 @@ import java.util.Objects;
 public class OpenFGASettingsConfigurable implements Configurable {
 
     private OpenFGASettingsComponent openFGASettingsComponent;
-    // A default constructor with no arguments is required because this implementation
-    // is registered in an applicationConfigurable EP
 
     @Nls(capitalization = Nls.Capitalization.Title)
     @Override
@@ -34,6 +32,9 @@ public class OpenFGASettingsConfigurable implements Configurable {
     @Override
     public boolean isModified() {
         OpenFGASettingsState settings = OpenFGASettingsState.getInstance();
+        if (!openFGASettingsComponent.isValid()) {
+            return false;
+        }
 
         return !Objects.equals(openFGASettingsComponent.getCliPathText(), settings.cliPath);
     }
