@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.github.le_yams"
-version = "0.2.0-SNAPSHOT"
+version = "0.2.0"
 
 repositories {
     mavenCentral()
