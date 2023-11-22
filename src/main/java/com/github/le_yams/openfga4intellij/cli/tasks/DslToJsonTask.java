@@ -1,6 +1,9 @@
-package com.github.le_yams.openfga4intellij.actions;
+package com.github.le_yams.openfga4intellij.cli.tasks;
 
 import com.github.le_yams.openfga4intellij.Notifier;
+import com.github.le_yams.openfga4intellij.cli.CliProcess;
+import com.github.le_yams.openfga4intellij.cli.CliProcessTask;
+import com.github.le_yams.openfga4intellij.cli.CliTaskException;
 import com.github.le_yams.openfga4intellij.settings.OpenFGASettingsState;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
@@ -19,16 +22,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Optional;
 
-public class DslToJsonTask extends Task.Backgroundable {
+public class DslToJsonTask extends Task.Backgroundable implements CliProcessTask<Void> {
+
     private final PsiFile dslFile;
-    private final Path dslFilePath;
     private final Path targetPath;
-    private Runnable onCancel;
+    private final CliProcess process;
 
     public static Optional<DslToJsonTask> create(@NotNull PsiFile dslFile, @NotNull Path dslFilePath) {
-        var targetName = DslToJsonAction.computeJsonGeneratedFileName(dslFile);
+        var targetName = computeJsonGeneratedFileName(dslFile);
         var targetPath = dslFilePath.getParent().resolve(targetName);
 
         if (Files.exists(targetPath)) {
@@ -42,73 +46,58 @@ public class DslToJsonTask extends Task.Backgroundable {
         return Optional.of(new DslToJsonTask(dslFile, dslFilePath, targetPath));
     }
 
-
-    private DslToJsonTask(@NotNull PsiFile dslFile, @NotNull Path dslFilePath, Path targetPath) {
+    private DslToJsonTask(@NotNull PsiFile dslFile, @NotNull Path dslFilePath, @NotNull Path targetPath) {
         super(dslFile.getProject(), "Generating json model for " + dslFile.getName(), true);
         this.dslFile = dslFile;
-        this.dslFilePath = dslFilePath;
         this.targetPath = targetPath;
 
+        process = new CliProcess(
+                OpenFGASettingsState.getInstance().requireCli(),
+                List.of(
+                        "model",
+                        "transform",
+                        "--file",
+                        dslFilePath.toString(),
+                        "--input-format",
+                        "fga"
+                ));
+    }
+
+    public static String computeJsonGeneratedFileName(PsiFile dslFile) {
+        return dslFile.getName().replaceAll("(fga)|(openfga)$", "json");
+    }
+
+    @Override
+    public void run(@NotNull ProgressIndicator indicator) {
+        try {
+            process.start(indicator, this);
+        } catch (CliTaskException e) {
+            notifyError(dslFile, e.getMessage());
+        }
     }
 
     @Override
     public void onCancel() {
-        if (onCancel != null) {
-            onCancel();
-        }
+        process.cancel();
     }
 
     @Override
-    public void run(@NotNull ProgressIndicator progressIndicator) {
-        progressIndicator.setIndeterminate(true);
-
-        var processBuilder = new ProcessBuilder(
-                OpenFGASettingsState.getInstance().cliPath,
-                "model",
-                "transform",
-                "--file",
-                dslFilePath.toString(),
-                "--input-format",
-                "fga"
-        );
-
-        try {
-            var outputFile = File.createTempFile("openfga", "");
-            var errorFile = File.createTempFile("openfga", "error");
-
-            processBuilder.redirectError(errorFile);
-            processBuilder.redirectOutput(outputFile);
-            Process process = processBuilder.start();
-            onCancel = process::destroy;
-            process.onExit().thenAccept(exitedProcess -> {
-                try {
-                    if (exitedProcess.exitValue() == 0) {
-                        if (!progressIndicator.isCanceled()) {
-                            Files.copy(outputFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
-                            ApplicationManager.getApplication().invokeLater(
-                                    () -> show(new GeneratedFile(dslFile.getProject(), targetPath)),
-                                    ModalityState.NON_MODAL);
-                        }
-                    } else {
-                        var errors = Files.readString(errorFile.toPath());
-                        notifyError(dslFile, errors);
-                    }
-                } catch (IOException e) {
-                    notifyError(dslFile, e);
-                } finally {
-                    outputFile.delete();
-                    errorFile.delete();
-                }
-
-            });
-        } catch (IOException e) {
-            notifyError(dslFile, e);
-        }
+    public Void onSuccess(File stdOutFile, File stdErrFile) throws IOException, CliTaskException {
+        Files.copy(stdOutFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+        ApplicationManager.getApplication().invokeLater(
+                () -> show(new GeneratedFile(dslFile.getProject(), targetPath)),
+                ModalityState.NON_MODAL);
+        return null;
     }
 
-
-    private static void notifyError(PsiFile psiFile, IOException e) {
-        notifyError(psiFile, e.getMessage());
+    @Override
+    public CliTaskException onFailure(File stdOutFile, File stdErrFile) {
+        try {
+            var errors = Files.readString(stdErrFile.toPath());
+            return new CliTaskException(errors);
+        } catch (IOException e) {
+            return new CliTaskException("unexpected error");
+        }
     }
 
     private static void notifyError(PsiFile psiFile, String message) {
@@ -118,9 +107,10 @@ public class DslToJsonTask extends Task.Backgroundable {
     private void show(GeneratedFile generatedFile) {
         generatedFile.refreshInTreeView();
         generatedFile.openInEditor();
+
     }
 
-    private final class GeneratedFile {
+    private static final class GeneratedFile {
         private final Project project;
         private final VirtualFile virtualFile;
 
@@ -142,9 +132,4 @@ public class DslToJsonTask extends Task.Backgroundable {
             virtualFile.getParent().refresh(false, false);
         }
     }
-
-    static class CancellationListener {
-
-    }
-
 }
