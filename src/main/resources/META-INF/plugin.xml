@@ -56,7 +56,7 @@
                 implementation="com.github.le_yams.openfga4intellij.OpenFGADefaultTemplatePropertiesProvider" />
         <defaultLiveTemplates file="/liveTemplates/OpenFGA.xml"/>
         <liveTemplateContext
-                id="OPENFGA_CONTEXT"
+                contextId="OPENFGA_CONTEXT"
                 implementation="com.github.le_yams.openfga4intellij.OpenFGATemplateContext"/>
         
         <toolWindow
