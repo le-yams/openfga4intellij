@@ -4,23 +4,14 @@ import com.intellij.credentialStore.CredentialAttributes;
 import com.intellij.credentialStore.CredentialAttributesKt;
 import com.intellij.credentialStore.Credentials;
 import com.intellij.ide.passwordSafe.PasswordSafe;
-import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class Server {
-
-    private static Logger logger = Logger.getInstance(Server.class);
-
     private String id;
     private String name;
     private AuthenticationMethod authenticationMethod = AuthenticationMethod.NONE;
-
-    private SharedKeysMetadata sharedKeys = new SharedKeysMetadata();
-    private OAuthMetadata oauth = new OAuthMetadata();
 
     public Server() {
         this("new server");
@@ -44,33 +35,17 @@ public class Server {
         PasswordSafe.getInstance().set(attributes, new Credentials(id, url));
     }
 
-    public List<String> loadSharedKeys() {
-        var keys = new ArrayList<String>();
-        for (int i = 0; i < sharedKeys.getCount(); i++) {
-            var credentials = getCredentials("sharedKey_" + i);
-            var value = credentials == null ? "" : credentials.getPasswordAsString();
-
-            logger.warn("reading shared key with index " + i + ": " + value);
-            keys.add(value);
+    public String loadApiToken() {
+        var credentials = getCredentials("apiToken");
+        if (credentials == null) {
+            return "";
         }
-        return keys;
+        return credentials.getPasswordAsString();
     }
 
-    public void storeSharedKeys(List<String> keys) {
-        var currentCount = sharedKeys.getCount();
-        var newCount = keys.size();
-        for (int i = 0; i < newCount; i++) {
-            var key = keys.get(i);
-            var attributes = getCredentialAttributes("sharedKey_" + i);
-            PasswordSafe.getInstance().set(attributes, new Credentials(id, key));
-            logger.warn("setting shared key " + attributes.getServiceName());
-        }
-        for (int i = newCount; i < currentCount; i++) {
-            var attributes = getCredentialAttributes("sharedKey_" + i);
-            PasswordSafe.getInstance().set(attributes, null);
-            logger.warn("deleting shared key " + attributes.getServiceName());
-        }
-        sharedKeys.setCount(newCount);
+    public void storeApiToken(String token) {
+        var attributes = getCredentialAttributes("apiToken");
+        PasswordSafe.getInstance().set(attributes, new Credentials(id, token));
     }
 
     public Credentials getCredentials(String keySuffix) {
@@ -108,24 +83,32 @@ public class Server {
         this.authenticationMethod = authenticationMethod;
     }
 
-    public SharedKeysMetadata getSharedKeys() {
-        return sharedKeys;
+    public Oidc loadOidc() {
+        var credentials = getCredentials("oidc_client");
+        var clientId = credentials != null ? credentials.getUserName() : "";
+        var clientSecret = credentials != null ? credentials.getPasswordAsString() : "";
+
+        credentials = getCredentials("oidc_issuer");
+        var issuer = credentials != null ? credentials.getPasswordAsString() : "";
+
+        credentials = getCredentials("oidc_audience");
+        var audience = credentials != null ? credentials.getPasswordAsString() : "";
+
+        return new Oidc(clientId, clientSecret, issuer, audience);
     }
 
-    public void setSharedKeys(SharedKeysMetadata sharedKeys) {
-        this.sharedKeys = sharedKeys;
-    }
-
-    public OAuthMetadata getOauth() {
-        return oauth;
-    }
-
-    public void setOauth(OAuthMetadata oauth) {
-        this.oauth = oauth;
+    public void storeOidc(Oidc oidc) {
+        var attributes = getCredentialAttributes("oidc_client");
+        PasswordSafe.getInstance().set(attributes, new Credentials(oidc.clientId(), oidc.clientSecret()));
+        attributes = getCredentialAttributes("oidc_issuer");
+        PasswordSafe.getInstance().set(attributes, new Credentials(id, oidc.issuer()));
+        attributes = getCredentialAttributes("oidc_audience");
+        PasswordSafe.getInstance().set(attributes, new Credentials(id, oidc.audience()));
     }
 
     @Override
     public String toString() {
         return name;
     }
+
 }

@@ -2,7 +2,6 @@ package com.github.le_yams.openfga4intellij.servers.ui;
 
 import com.github.le_yams.openfga4intellij.servers.service.OpenFGAServers;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.treeStructure.Tree;
 import org.jetbrains.annotations.NotNull;
@@ -15,12 +14,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 class OpenFGAToolWindowContent {
-    private final ToolWindow toolWindow;
     private Tree tree;
-
-    public OpenFGAToolWindowContent(ToolWindow toolWindow) {
-        this.toolWindow = toolWindow;
-    }
 
     public JComponent getContentPanel() {
         var mainPanel = new JPanel(new BorderLayout());
