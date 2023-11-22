@@ -37,7 +37,7 @@
                 language="OpenFGA"
                 implementationClass="com.github.le_yams.openfga4intellij.OpenFGASyntaxHighlighterFactory"/>
 
-        <highlightVisitor implementation="com.github.le_yams.openfga4intellij.OpenFGAHighlightVisitor" />
+        <highlightVisitor implementation="com.github.le_yams.openfga4intellij.OpenFGAHighlightVisitor"/>
 
         <colorSettingsPage
                 implementation="com.github.le_yams.openfga4intellij.OpenFGAColorSettingsPage"/>
@@ -51,14 +51,14 @@
                 id="com.github.le_yams.openfga4intellij.settings.OpenFGASettingsConfigurable"
                 displayName="OpenFGA"/>
 
-        <internalFileTemplate name="OpenFGA Authorization Model" />
+        <internalFileTemplate name="OpenFGA Authorization Model"/>
         <defaultTemplatePropertiesProvider
-                implementation="com.github.le_yams.openfga4intellij.OpenFGADefaultTemplatePropertiesProvider" />
+                implementation="com.github.le_yams.openfga4intellij.OpenFGADefaultTemplatePropertiesProvider"/>
         <defaultLiveTemplates file="/liveTemplates/OpenFGA.xml"/>
         <liveTemplateContext
                 contextId="OPENFGA_CONTEXT"
                 implementation="com.github.le_yams.openfga4intellij.OpenFGATemplateContext"/>
-        
+
         <toolWindow
                 factoryClass="com.github.le_yams.openfga4intellij.servers.ui.OpenFGAToolWindowFactory"
                 id="OpenFGA"
@@ -68,14 +68,19 @@
         </toolWindow>
 
         <notificationGroup id="OpenFGA Notifications"
-                           displayType="BALLOON" />
+                           displayType="BALLOON"/>
     </extensions>
     <actions>
 
-        <group id="OpenFGAPopupGroup" popup="true" text="OpenFGA" />
+        <group
+                id="OpenFGAPopupGroup"
+                class="com.github.le_yams.openfga4intellij.actions.OpenFGAPopupGroup"
+                popup="true"
+                text="OpenFGA"/>
 
         <action id="com.github.le_yams.openfga4intellij.actions.DslToJsonAction"
-                class="com.github.le_yams.openfga4intellij.actions.DslToJsonAction" text="Generate JSON Authorization Model"
+                class="com.github.le_yams.openfga4intellij.actions.DslToJsonAction"
+                text="Generate JSON Authorization Model"
                 description="Generate authorisation model in JSON format">
             <add-to-group group-id="OpenFGAPopupGroup"/>
         </action>
@@ -84,8 +89,8 @@
         <group id="wrapper">
             <reference ref="OpenFGAPopupGroup"/>
             <separator/>
-            <add-to-group group-id="EditorPopupMenu" anchor="first" />
-            <add-to-group group-id="ProjectViewPopupMenu" anchor="first" />
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </group>
 
     </actions>
