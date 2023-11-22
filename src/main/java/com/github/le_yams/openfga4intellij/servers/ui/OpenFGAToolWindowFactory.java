@@ -11,7 +11,7 @@ public class OpenFGAToolWindowFactory implements ToolWindowFactory {
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
 
-        var toolWindowContent = new OpenFGAToolWindowContent();
+        var toolWindowContent = new OpenFGAToolWindowContent(toolWindow);
         Content content = ContentFactory.getInstance().createContent(toolWindowContent.getContentPanel(), "", false);
         toolWindow.getContentManager().addContent(content);
     }
