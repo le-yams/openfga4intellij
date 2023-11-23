@@ -40,13 +40,14 @@
         IDENT1= "regexp:((\ {2})|\t)";
         IDENT2= "regexp:((\ {4})|(\t{2}))";
 
-        SINGLE_LINE_COMMENT = "regexp:[ \t]*#.*"
     ]
 }
 
 openfgaFile ::= main
 main ::= modelHeader typeDefs newline?
 modelHeader ::= headerMultiLineComment? MODEL spacing? multiLineComment? indentedLine1 SCHEMA spacing schemaVersion spacing?
+headerMultiLineComment ::= comment (newline comment)*
+multiLineComment ::= newline comment (newline comment)*
 typeDefs ::= typeDef*
 typeDef ::= multiLineComment? newline TYPE spacing typeIdentifier spacing? (indentedLine1 RELATIONS spacing? relationDeclaration+)?
 relationDeclaration ::= multiLineComment? indentedLine2 DEFINE spacing relationName spacing? COLON spacing? relationDef spacing?
@@ -76,6 +77,4 @@ spacing ::= WHITESPACE+
 indentedLine1 ::= newline IDENT1
 indentedLine2 ::= newline IDENT2
 newline ::= END_OF_LINE+
-comment ::= SINGLE_LINE_COMMENT
-headerMultiLineComment ::= comment (newline comment)*
-multiLineComment ::= newline comment (newline comment)*
+comment ::= "regexp:[ \t]*#.*"

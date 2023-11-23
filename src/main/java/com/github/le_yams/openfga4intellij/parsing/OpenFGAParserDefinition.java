@@ -29,7 +29,7 @@ public class OpenFGAParserDefinition implements ParserDefinition {
     @NotNull
     @Override
     public TokenSet getCommentTokens() {
-        return OpenFGATokenSets.SINGLE_LINE_COMMENT;
+        return TokenSet.create(OpenFGATypes.HEADER_MULTI_LINE_COMMENT, OpenFGATypes.MULTI_LINE_COMMENT);
     }
 
     @NotNull
@@ -37,12 +37,6 @@ public class OpenFGAParserDefinition implements ParserDefinition {
     public TokenSet getStringLiteralElements() {
         return TokenSet.EMPTY;
     }
-
-//    @NotNull
-//    @Override
-//    public TokenSet getWhitespaceTokens() {
-//        return OpenFGATokenSets.WHITE_SPACE;
-//    }
 
     @NotNull
     @Override
