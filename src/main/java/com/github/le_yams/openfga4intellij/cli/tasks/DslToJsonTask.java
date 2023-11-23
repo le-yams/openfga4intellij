@@ -5,6 +5,7 @@ import com.github.le_yams.openfga4intellij.cli.CliProcess;
 import com.github.le_yams.openfga4intellij.cli.CliProcessTask;
 import com.github.le_yams.openfga4intellij.cli.CliTaskException;
 import com.github.le_yams.openfga4intellij.settings.OpenFGASettingsState;
+import com.intellij.codeInsight.actions.ReformatCodeProcessor;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -15,6 +16,7 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -126,6 +128,9 @@ public class DslToJsonTask extends Task.Backgroundable implements CliProcessTask
             for (var editor : editors) {
                 editor.getFile().refresh(false, false);
             }
+
+            PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
+            new ReformatCodeProcessor(project, psiFile, null, false).run();
         }
 
         private void refreshInTreeView() {
