@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.le_yams.openfga4intellij.servers.model.Oidc;
+import com.github.le_yams.openfga4intellij.util.UriUtil;
+import lombok.Getter;
+import lombok.Setter;
 import org.dmfs.httpessentials.exceptions.ProtocolError;
 import org.dmfs.httpessentials.exceptions.ProtocolException;
 import org.dmfs.httpessentials.httpurlconnection.HttpUrlConnectionExecutor;
@@ -85,20 +88,12 @@ class OidcUtil {
         }
     }
 
-
+    @Getter
+    @Setter
     @JsonIgnoreProperties(ignoreUnknown = true)
     static class DiscoveryDocument {
 
         @JsonProperty("token_endpoint")
         private String tokenEndpoint;
-
-        public String getTokenEndpoint() {
-            return tokenEndpoint;
-        }
-
-        public void setTokenEndpoint(String tokenEndpoint) {
-            this.tokenEndpoint = tokenEndpoint;
-        }
     }
-
 }
