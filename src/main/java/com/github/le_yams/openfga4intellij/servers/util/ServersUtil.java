@@ -22,11 +22,11 @@ import static java.time.temporal.ChronoUnit.SECONDS;
 public class ServersUtil {
 
     public static CompletableFuture<Integer> testConnection(Server server) throws ServerConnectionException {
-        var apiUrl = server.loadUrl();
+        var apiUrl = server.getUrl();
         return switch (server.getAuthenticationMethod()) {
-            case OIDC -> testOidcConnection(server.loadOidc(), apiUrl); // openfga sdk oidc implementation doesn't work properly
+            case OIDC -> testOidcConnection(server.getOidc(), apiUrl); // openfga sdk oidc implementation doesn't work properly
             case NONE -> testListStoresWithOpenFgaClient(apiUrl);
-            case API_TOKEN -> testListStoresWithOpenFgaClient(apiUrl, Optional.of(server.loadApiToken()));
+            case API_TOKEN -> testListStoresWithOpenFgaClient(apiUrl, Optional.of(server.getApiToken()));
         };
     }
 
