@@ -208,7 +208,7 @@ public class ServerDialog extends DialogWrapper {
                     } else if (httpStatusValue < 300) {
                         taskSucceeded();
                     } else {
-                        taskFailed("Openfga server connection test filed with HTTP statuc " + httpStatusValue);
+                        taskFailed("Openfga server connection test failed with HTTP statuc " + httpStatusValue);
                     }
                 });
             } catch (Exception exception) {
