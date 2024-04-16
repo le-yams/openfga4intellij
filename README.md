@@ -6,7 +6,8 @@ This is an unofficial IntelliJ plugin for [OpenFGA](https://openfga.dev/) suppor
 
 ## Features
 
-* _Partial_ DSL syntax support (associated with `.fga` and `.openfga` file extensions)
+* DSL syntax support (associated with `.fga` and `.openfga` file extensions)
+* DSL syntax injection for YAML store files (associated with `.fga.yaml` and `.openfga.yaml` file extensions)
 * Authorization model dsl file template
 * Authorization model dsl live templates
 * Generate json file from DSL (requires [OpenFGA CLI](https://github.com/openfga/cli) to be installed)
