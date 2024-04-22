@@ -37,7 +37,7 @@ public class ServerDialog extends DialogWrapper {
     private final JBPasswordField apiTokenField = new JBPasswordField();
     private final JBTextField oidcClientIdField = new JBTextField();
     private final JBPasswordField oidcClientSecretField = new JBPasswordField();
-    private final JBTextField oidcAuthorityField = new JBTextField();
+    private final JBTextField oidcTokenEndpointField = new JBTextField();
     private final JBTextField oidcScopeField = new JBTextField();
     private final ActionLink connectionTestButton = new ActionLink("Test connexion");
     private final JBLabel connectionTestLabel = new JBLabel();
@@ -123,8 +123,8 @@ public class ServerDialog extends DialogWrapper {
     private JPanel createOidcPanel() {
         var oidcPanel = new JPanel(new MigLayout("fillx,wrap 2", "[left]rel[grow,fill]"));
 
-        oidcPanel.add(new JBLabel("Authority"));
-        oidcPanel.add(oidcAuthorityField);
+        oidcPanel.add(new JBLabel("Token endpoint"));
+        oidcPanel.add(oidcTokenEndpointField);
 
         oidcPanel.add(new JBLabel("Client id"));
         oidcPanel.add(oidcClientIdField);
@@ -151,7 +151,7 @@ public class ServerDialog extends DialogWrapper {
         var oidc = server.loadOidc();
         oidcClientIdField.setText(oidc.clientId());
         oidcClientSecretField.setText(oidc.clientSecret());
-        oidcAuthorityField.setText(oidc.authority());
+        oidcTokenEndpointField.setText(oidc.tokenEndpoint());
         oidcScopeField.setText(oidc.scope());
 
     }
@@ -170,7 +170,7 @@ public class ServerDialog extends DialogWrapper {
             }
             case API_TOKEN -> server.storeApiToken(new String(apiTokenField.getPassword()));
             case OIDC -> server.storeOidc(new Oidc(
-                    oidcAuthorityField.getText(), oidcClientIdField.getText(),
+                    oidcTokenEndpointField.getText(), oidcClientIdField.getText(),
                     new String(oidcClientSecretField.getPassword()),
                     oidcScopeField.getText()
             ));
@@ -204,11 +204,14 @@ public class ServerDialog extends DialogWrapper {
                 var httpStatus = ServersUtil.testConnection(testServer);
                 httpStatus.whenCompleteAsync((httpStatusValue, throwable) -> {
                     if (throwable != null) {
+                        while (throwable.getCause() != null) {
+                            throwable = throwable.getCause();
+                        }
                         taskFailed(throwable);
                     } else if (httpStatusValue < 300) {
                         taskSucceeded();
                     } else {
-                        taskFailed("Openfga server connection test failed with HTTP statuc " + httpStatusValue);
+                        taskFailed("OpenFGA server connection failed with HTTP status " + httpStatusValue);
                     }
                 });
             } catch (Exception exception) {
@@ -223,11 +226,11 @@ public class ServerDialog extends DialogWrapper {
             taskFailed(errorMessage, null);
         }
         private void taskFailed(Throwable throwable) {
-            taskFailed(throwable.getMessage(), throwable);
+            taskFailed(String.format("%s: %s", throwable.getClass().getName(), throwable.getMessage()), throwable);
         }
         private void taskFailed(String errorMessage, Throwable throwable) {
             SwingUtilities.invokeLater(() -> {
-                connectionTestLabel.setText(testServer + " connection test failed");
+                connectionTestLabel.setText(testServer + " connection failed");
                 connectionTestLabel.setIcon(AllIcons.RunConfigurations.TestError);
             });
             if (throwable != null) {
