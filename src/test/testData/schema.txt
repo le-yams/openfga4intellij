@@ -7,8 +7,7 @@ OpenFGA File
           PsiElement(OpenFGA.END_OF_LINE)('\n')
         PsiElement(OpenFGA.IDENT1)('  ')
       PsiElement(OpenFGA.SCHEMA)('schema')
-      OpenFGASpacingImpl(SPACING)
-        PsiElement(OpenFGA.WHITESPACE)(' ')
+      PsiWhiteSpace(' ')
       PsiElement(OpenFGA.SCHEMA_VERSION)('1.1')
     OpenFGATypeDefsImpl(TYPE_DEFS)
       <empty list>

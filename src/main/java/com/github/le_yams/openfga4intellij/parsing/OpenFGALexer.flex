@@ -1,7 +1,7 @@
 package com.github.le_yams.openfga4intellij.parsing;
 
 import com.intellij.lexer.FlexLexer;
-import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.TokenType;import com.intellij.psi.tree.IElementType;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
@@ -61,11 +61,11 @@ CONDITION_EXPRESSION=(\{[^\}]+\})
   {ALPHA_NUMERIC}             { return ALPHA_NUMERIC; }
   {SCHEMA_VERSION}            { return SCHEMA_VERSION; }
   {END_OF_LINE}               { return END_OF_LINE; }
-  {WHITESPACE}                { return WHITESPACE; }
+  {WHITESPACE}                { return TokenType.WHITE_SPACE; }
   ^{IDENT1}                   { return IDENT1; }
   ^{IDENT2}                   { return IDENT2; }
   ^{SINGLE_LINE_COMMENT}$     { return SINGLE_LINE_COMMENT; }
   {CONDITION_EXPRESSION}      { return CONDITION_EXPRESSION; }
 }
 
-[^] { return BAD_CHARACTER; }
+[^] { return TokenType.BAD_CHARACTER; }

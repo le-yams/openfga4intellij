@@ -17,28 +17,28 @@
 
 openfgaFile ::= main
 main ::= headerMultiLineComment? newline? ( modelHeader | moduleHeader ) typeDefs newline? conditionDefs
-moduleHeader ::= MODULE spacing? moduleName spacing?
-modelHeader ::= MODEL spacing? multiLineComment? indentedLine1 SCHEMA spacing SCHEMA_VERSION spacing?
+moduleHeader ::= MODULE moduleName
+modelHeader ::= MODEL multiLineComment? indentedLine1 SCHEMA SCHEMA_VERSION
 typeDefs ::= typeDef*
-typeDef ::= multiLineComment? newline (EXTEND spacing)? TYPE spacing typeIdentifier spacing? (indentedLine1 RELATIONS spacing? relationDeclaration+)?
-relationDeclaration ::= multiLineComment? indentedLine2 DEFINE spacing relationName spacing? COLON spacing? relationDef spacing?
+typeDef ::= multiLineComment? newline (EXTEND)? TYPE typeIdentifier (indentedLine1 RELATIONS relationDeclaration+)?
+relationDeclaration ::= multiLineComment? indentedLine2 DEFINE relationName COLON relationDef
 
 relationDef ::= (relationDefDirectAssignment | relationDefGrouping | relationRecurse) relationDefPartials?
 relationDefNoDirect ::= (relationDefGrouping | relationRecurseNoDirect) (relationDefPartials)?;
 relationDefPartials ::=
-    (spacing OR spacing (relationDefGrouping | relationRecurseNoDirect))+
-    | (spacing AND spacing (relationDefGrouping | relationRecurseNoDirect))+
-    | (spacing BUT_NOT spacing (relationDefGrouping | relationRecurseNoDirect));
-relationRecurse ::= L_PAREN spacing? (relationDef | relationRecurseNoDirect) spacing? R_PAREN;
-relationRecurseNoDirect ::= L_PAREN spacing? (relationDefNoDirect | relationRecurseNoDirect) spacing? R_PAREN;
-relationDefDirectAssignment ::= L_SQUARE spacing? relationDefTypeRestriction spacing? (COMMA spacing? relationDefTypeRestriction)* spacing? R_SQUARE
+    (OR (relationDefGrouping | relationRecurseNoDirect))+
+    | (AND (relationDefGrouping | relationRecurseNoDirect))+
+    | (BUT_NOT (relationDefGrouping | relationRecurseNoDirect));
+relationRecurse ::= L_PAREN (relationDef | relationRecurseNoDirect) R_PAREN;
+relationRecurseNoDirect ::= L_PAREN (relationDefNoDirect | relationRecurseNoDirect) R_PAREN;
+relationDefDirectAssignment ::= L_SQUARE relationDefTypeRestriction (COMMA relationDefTypeRestriction)* R_SQUARE
 
 relationDefTypeRestrictionBase ::= relationDefTypeRestrictionWildcard | relationDefTypeRestrictionUserset | relationDefTypeRestrictionRelation
-relationDefTypeRestriction ::= relationDefTypeRestrictionBase (spacing WITH spacing conditionNameRef)?
+relationDefTypeRestriction ::= relationDefTypeRestrictionBase (WITH conditionNameRef)?
 
 relationDefRewrite ::= relationDefRelationOnRelatedObject | relationDefRelationOnSameObject
 relationDefRelationOnSameObject ::= rewriteComputedusersetName
-relationDefRelationOnRelatedObject ::= rewriteTuplesetComputedusersetName spacing FROM spacing rewriteTuplesetName
+relationDefRelationOnRelatedObject ::= rewriteTuplesetComputedusersetName FROM rewriteTuplesetName
 relationDefTypeRestrictionRelation ::= typeReference
 relationDefTypeRestrictionWildcard ::= typeReference COLON WILDCARD
 relationDefTypeRestrictionUserset ::= typeReference HASH relationDefTypeRestrictionRelation
@@ -56,20 +56,19 @@ typeReference ::= identifier
 conditionDefs ::= conditions*
 conditions ::= (
     (headerMultiLineComment newline)?
-    CONDITION spacing conditionName spacing?
-    L_PAREN spacing? conditionParameter spacing? (COMMA spacing? conditionParameter spacing?)* newline? R_PAREN spacing?
+    CONDITION conditionName
+    L_PAREN conditionParameter (COMMA conditionParameter)* newline? R_PAREN
     CONDITION_EXPRESSION
     ) newline?
 conditionName ::= identifier
 conditionNameRef ::= identifier
-conditionParameter ::= newline? parameterName spacing? COLON spacing? parameterType
+conditionParameter ::= newline? parameterName COLON parameterType
 parameterName ::= identifier
 parameterType ::= parameterTypeNames | (("map"|"list") LESS parameterTypeNames GREATER)
 parameterTypeNames ::= ("bool"|"string"|"int"|"uint"|"double"|"duration"|"timestamp"|"ipaddress")
 
 // Simple tokens
 identifier ::= ALPHA_NUMERIC | MODEL | SCHEMA | TYPE | RELATION | MODULE | EXTEND
-spacing ::= WHITESPACE+
 indentedLine1 ::= newline IDENT1
 indentedLine2 ::= newline IDENT2
 newline ::= END_OF_LINE+
