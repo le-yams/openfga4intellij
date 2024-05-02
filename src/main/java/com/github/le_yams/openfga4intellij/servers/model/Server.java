@@ -88,20 +88,20 @@ public class Server {
         var clientId = credentials != null ? credentials.getUserName() : "";
         var clientSecret = credentials != null ? credentials.getPasswordAsString() : "";
 
-        credentials = getCredentials(CredentialKey.OIDC_AUTHORITY);
-        var authority = credentials != null ? credentials.getPasswordAsString() : "";
+        credentials = getCredentials(CredentialKey.OIDC_TOKEN_ENDPOINT);
+        var tokenEndpoint = credentials != null ? credentials.getPasswordAsString() : "";
 
         credentials = getCredentials(CredentialKey.OIDC_SCOPE);
         var audience = credentials != null ? credentials.getPasswordAsString() : "";
 
-        return new Oidc(authority, clientId, clientSecret, audience);
+        return new Oidc(tokenEndpoint, clientId, clientSecret, audience);
     }
 
     public void storeOidc(Oidc oidc) {
         var attributes = getCredentialAttributes(CredentialKey.OIDC_CLIENT);
         PasswordSafe.getInstance().set(attributes, new Credentials(oidc.clientId(), oidc.clientSecret()));
-        attributes = getCredentialAttributes(CredentialKey.OIDC_AUTHORITY);
-        PasswordSafe.getInstance().set(attributes, new Credentials(id, oidc.authority()));
+        attributes = getCredentialAttributes(CredentialKey.OIDC_TOKEN_ENDPOINT);
+        PasswordSafe.getInstance().set(attributes, new Credentials(id, oidc.tokenEndpoint()));
         attributes = getCredentialAttributes(CredentialKey.OIDC_SCOPE);
         PasswordSafe.getInstance().set(attributes, new Credentials(id, oidc.scope()));
     }
@@ -116,7 +116,7 @@ public class Server {
         String URL = "url";
         String API_TOKEN = "apiToken";
         String OIDC_CLIENT = "oidc_client";
-        String OIDC_AUTHORITY = "oidc_authority";
+        String OIDC_TOKEN_ENDPOINT = "oidc_token_endpoint";
         String OIDC_SCOPE = "oidc_scope";
     }
 }
