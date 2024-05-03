@@ -1,4 +1,4 @@
-package com.github.le_yams.openfga4intellij.servers.util;
+package com.github.le_yams.openfga4intellij.util;
 
 import java.net.URI;
 
