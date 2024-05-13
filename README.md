@@ -1,13 +1,7 @@
 # openfga4intellij
 
 
-This is an unofficial IntelliJ plugin for [OpenFGA](https://openfga.dev/) support.
+:warning: **This project is discontinued, please use the official [OpenFGA IntelliJ plugin](https://github.com/openfga/intellij-plugin) instead.**
 
+Thanks to the OpenFGA team for their support.
 
-## Features
-
-* _Partial_ DSL syntax support (associated with `.fga` and `.openfga` file extensions)
-* Authorization model dsl file template
-* Authorization model dsl live templates
-* Generate json file from DSL (requires [OpenFGA CLI](https://github.com/openfga/cli) to be installed)
-* Configure servers in OpenFGA tool window
